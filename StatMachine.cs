@@ -175,7 +175,9 @@ namespace RxDevKit.StateMachine
 				}
 			});
 		}
-	
+
+		public IDisposable OnEnter(Enum where, Action action)
+			=> OnEnter(where, () => { action(); return Observable.ReturnUnit(); });
 		public IDisposable OnExit(Enum where, Func<IObservable<Unit>> asyncMessageReceiver)
 		{
 			_hasSubscribers = true;
@@ -191,6 +193,9 @@ namespace RxDevKit.StateMachine
 				}
 			});
 		}
+
+		public IDisposable OnExit(Enum where, Action action)
+			=> OnEnter(where, () => { action(); return Observable.ReturnUnit(); });
 
 		public IDisposable Subscribe(IObserver<Enum> observer)
 		{
