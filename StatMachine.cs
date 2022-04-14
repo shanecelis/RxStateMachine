@@ -29,6 +29,8 @@ namespace RxDevKit.StateMachine
 			public readonly BoolReactiveProperty HasExited = new BoolReactiveProperty(false);
 
 		}
+
+		public bool IsTransitioning => _running;
 	
 		public void ChangeState(Enum targetState)
 		{
