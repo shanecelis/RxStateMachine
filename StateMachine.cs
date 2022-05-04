@@ -8,7 +8,7 @@ namespace RxDevKit.StateMachine
 {
 	public class StateMachine<Enum>: IObservable<Enum>
 	{
-		private readonly List<State<Enum>> _queue = new List<State<Enum>>();
+		private readonly List<State> _queue = new List<State>();
 		private AsyncMessageBroker _broker  = new AsyncMessageBroker();
 		private bool _running = false;
 		private Enum _nextState;
@@ -19,7 +19,7 @@ namespace RxDevKit.StateMachine
 		public bool BlendMode = false;
 
 		private readonly Subject<Enum> _currentState = new Subject<Enum>();
-		private class State<Enum>
+		private class State
 		{
 			public Action Enter;
 			public Action Exit;
@@ -41,7 +41,7 @@ namespace RxDevKit.StateMachine
 			}
 		
 			_nextState = targetState;
-			var state = new State<Enum>();
+			var state = new State();
 		
 			state.Enter = () =>
 			{
@@ -75,7 +75,7 @@ namespace RxDevKit.StateMachine
 
 		private void OnCancel()
 		{
-			var state = new State<Enum>();
+			var state = new State();
 			state.Exit = () =>
 			{
 				_running = true;
